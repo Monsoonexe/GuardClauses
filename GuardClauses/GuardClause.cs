@@ -13,143 +13,145 @@ namespace GuardClauses
         //https://stackoverflow.com/questions/6038061/regular-expression-to-find-urls-within-a-string
         private const string VALID_URL_PATTERN =
             @"([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?";
-            //@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
-        
+        //@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
+
+        private const string DEFAULT_ARGUMENT_NAME = "argument";
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(int argumentValue, string argumentName)
+        public static void IsZero(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is zero");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(long argumentValue, string argumentName)
+        public static void IsZero(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is zero");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(decimal argumentValue, string argumentName)
+        public static void IsZero(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is zero");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(double argumentValue, string argumentName)
+        public static void IsZero(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is zero.");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(float argumentValue, string argumentName)
+        public static void IsZero(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is zero.");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(int argumentValue, string argumentName)
+        public static void IsNegative(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0)
                 throw new ArgumentException($"{argumentName} is negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(long argumentValue, string argumentName)
+        public static void IsNegative(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0)
                 throw new ArgumentException($"{argumentName} is negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(decimal argumentValue, string argumentName)
+        public static void IsNegative(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0)
                 throw new ArgumentException($"{argumentName} is negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(double argumentValue, string argumentName)
+        public static void IsNegative(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0)
                 throw new ArgumentException($"{argumentName} is negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(float argumentValue, string argumentName)
+        public static void IsNegative(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(int argumentValue, string argumentName)
-        {
-            if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(long argumentValue, string argumentName)
-        {
-            if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(decimal argumentValue, string argumentName)
-        {
-            if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(float argumentValue, string argumentName)
-        {
-            if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(double argumentValue, string argumentName)
+        public static void IsPositive(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue > 0)
                 throw new ArgumentException($"{argumentName} is positive number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(int argumentValue, string argumentName)
+        public static void IsPositive(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsZeroOrNegative(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0 || argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(long argumentValue, string argumentName)
+        public static void IsZeroOrNegative(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0 || argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(decimal argumentValue, string argumentName)
+        public static void IsZeroOrNegative(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0 || argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(double argumentValue, string argumentName)
+        public static void IsZeroOrNegative(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0 || argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(float argumentValue, string argumentName)
+        public static void IsZeroOrNegative(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue < 0 || argumentValue == 0)
                 throw new ArgumentException($"{argumentName} is 0 or negative number");
@@ -163,28 +165,28 @@ namespace GuardClauses
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrEmptyStringOrWhiteSpace(string argumentValue, string argumentName)
+        public static void IsNullOrEmptyStringOrWhiteSpace(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             IsNullOrWhiteSpace(argumentValue, argumentName);
             IsNullOrEmptyString(argumentValue, argumentName);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrWhiteSpace(string argumentValue, string argumentName)
+        public static void IsNullOrWhiteSpace(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (string.IsNullOrWhiteSpace(argumentValue))
                 throw new ArgumentException($"{argumentName} is null or white space");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrEmptyString(string argumentValue, string argumentName)
+        public static void IsNullOrEmptyString(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (string.IsNullOrEmpty(argumentValue))
                 throw new ArgumentException($"{argumentName} is null or empty string");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArgumentIsNotNull(object value, string argumentName)
+        public static void ArgumentIsNotNull(object value, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (ReferenceEquals(value, null))
                 throw new ArgumentNullException($"{argumentName} is null object");
@@ -214,14 +216,14 @@ namespace GuardClauses
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsStringEmptyGuid(string argumentValue, string argumentName)
+        public static void IsStringEmptyGuid(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == Guid.Empty.ToString())
                 throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsEmptyGuid(Guid argumentValue, string argumentName)
+        public static void IsEmptyGuid(Guid argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue == Guid.Empty)
                 throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
@@ -242,9 +244,9 @@ namespace GuardClauses
             if (!regex.IsMatch(url))
                 throw new ArgumentException($"{url} is not valid");
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaximumLength(string argumentValue, string argumentName, int maximumLength)
+        public static void MaximumLength(string argumentValue, int maximumLength, string argumentName = DEFAULT_ARGUMENT_NAME)
         {
             if (argumentValue.Length > maximumLength)
                 throw new ArgumentException($"Argument {argumentName} exceed maximum length {maximumLength}");
