@@ -165,8 +165,8 @@ namespace GuardClauses
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNullOrEmptyStringOrWhiteSpace(string argumentValue, string argumentName)
         {
-            IsNullOrWhiteSpace(argumentValue, nameof(argumentName));
-            IsNullOrEmptyString(argumentValue, nameof(argumentName));
+            IsNullOrWhiteSpace(argumentValue, argumentName);
+            IsNullOrEmptyString(argumentValue, argumentName);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -195,14 +195,14 @@ namespace GuardClauses
         {
             if (argumentValue > comparableDateTme)
                 throw new ArgumentException(
-                    $"{nameof(argumentName)}{argumentValue} is greater than {comparableDateTme}");
+                    $"{argumentName}: {argumentValue} is greater than {comparableDateTme}");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DateTimeIsLessThan(DateTime argumentValue, string argumentName, DateTime comparableDateTme)
         {
             if (argumentValue < comparableDateTme)
-                throw new ArgumentException($"{nameof(argumentName)}{argumentValue} is less than {comparableDateTme}");
+                throw new ArgumentException($"{argumentName}: {argumentValue} is less than {comparableDateTme}");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -210,21 +210,21 @@ namespace GuardClauses
             DateTime endDateTime)
         {
             if (argumentValue < startDateTime || argumentValue > endDateTime)
-                throw new ArgumentException($"{nameof(argumentName)} is out of range");
+                throw new ArgumentException($"{argumentName} is out of range");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsStringEmptyGuid(string argumentValue, string argumentName)
         {
             if (argumentValue == Guid.Empty.ToString())
-                throw new ArgumentException($"{nameof(argumentName)} can not be string with value of empty guid.");
+                throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmptyGuid(Guid argumentValue, string argumentName)
         {
             if (argumentValue == Guid.Empty)
-                throw new ArgumentException($"{nameof(argumentName)} can not be string with value of empty guid.");
+                throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
