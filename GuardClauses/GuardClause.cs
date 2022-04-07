@@ -86,6 +86,41 @@ namespace GuardClauses
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(int argumentValue, string argumentName)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(long argumentValue, string argumentName)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(decimal argumentValue, string argumentName)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(float argumentValue, string argumentName)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsPositive(double argumentValue, string argumentName)
+        {
+            if (argumentValue > 0)
+                throw new ArgumentException($"{argumentName} is positive number");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsZeroOrNegative(int argumentValue, string argumentName)
         {
             if (argumentValue < 0 || argumentValue == 0)
