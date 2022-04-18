@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace GuardClauses
 {
-    public static class GuardClause
+    /// <summary>
+    /// Throw exceptions if the guard condition is true.
+    /// </summary>
+    public static class GuardAgainst
     {
         // https://devblogs.microsoft.com/csharpfaq/what-is-the-difference-between-const-and-static-readonly/
         private const string VALID_EMAIL_ADDRESS_PATTERN =
@@ -15,241 +19,354 @@ namespace GuardClauses
             @"([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?";
         //@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
 
-        private const string DEFAULT_ARGUMENT_NAME = "argument";
+        private const string DEFAULT_PARAM_NAME = "argument";
 
+        #region Boolean
+
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsTrue(bool condition,
+            string paramName = DEFAULT_PARAM_NAME)
+        {
+            if (condition)
+                throw new ArgumentException($"{paramName} is true but should not be.");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsFalse(bool condition,
+            string paramName = DEFAULT_PARAM_NAME)
+        {
+            if (!condition)
+                throw new ArgumentException($"{paramName} is false but should not be.");
+        }
+
+        #endregion
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsZero(int argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is zero");
+                throw new ArgumentException($"{paramName} is zero.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZero(long argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is zero");
+                throw new ArgumentException($"{paramName} is zero.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZero(decimal argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is zero");
+                throw new ArgumentException($"{paramName} is zero.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZero(double argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is zero.");
+                throw new ArgumentException($"{paramName} is zero.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZero(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZero(float argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is zero.");
+                throw new ArgumentException($"{paramName} is zero.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNegative(int argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < 0)
-                throw new ArgumentException($"{argumentName} is negative number");
+                throw new ArgumentException($"{paramName} is negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNegative(long argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < 0)
-                throw new ArgumentException($"{argumentName} is negative number");
+                throw new ArgumentException($"{paramName} is negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNegative(decimal argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < 0)
-                throw new ArgumentException($"{argumentName} is negative number");
+                throw new ArgumentException($"{paramName} is negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNegative(double argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < 0)
-                throw new ArgumentException($"{argumentName} is negative number");
+                throw new ArgumentException($"{paramName} is negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNegative(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNegative(float argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsPositive(int argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
+                throw new ArgumentException($"{paramName} is positive number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsPositive(long argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
+                throw new ArgumentException($"{paramName} is positive number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsPositive(decimal argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
+                throw new ArgumentException($"{paramName} is positive number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsPositive(float argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
+                throw new ArgumentException($"{paramName} is positive number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsPositive(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsPositive(double argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue > 0)
-                throw new ArgumentException($"{argumentName} is positive number");
+                throw new ArgumentException($"{paramName} is positive number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(int argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZeroOrNegative(int argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (argumentValue < 0 || argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+            if (argumentValue <= 0)
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(long argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZeroOrNegative(long argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (argumentValue < 0 || argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+            if (argumentValue <= 0)
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(decimal argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZeroOrNegative(decimal argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (argumentValue < 0 || argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+            if (argumentValue <= 0)
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(double argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZeroOrNegative(double argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (argumentValue < 0 || argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+            if (argumentValue <= 0)
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsZeroOrNegative(float argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsZeroOrNegative(float argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (argumentValue < 0 || argumentValue == 0)
-                throw new ArgumentException($"{argumentName} is 0 or negative number");
+            if (argumentValue <= 0)
+                throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsLengthExceeded(string argumentValue, string argumentName, int maximumLength)
+        public static void IsLengthExceeded(System.Collections.ICollection argumentValue,
+            string paramName, int maximumLength)
         {
-            if (argumentValue.Length > maximumLength)
-                throw new ArgumentException($"{argumentName} has exceeded maximum number of characters");
+            int count = argumentValue.Count;
+            if (count > maximumLength)
+                throw new ArgumentException($"{paramName} ({count}) has exceeded maximum number of " +
+                    $"characters: {maximumLength}.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrEmptyStringOrWhiteSpace(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsLengthExceeded(string argumentValue, string paramName, int maximumLength)
         {
-            IsNullOrWhiteSpace(argumentValue, argumentName);
-            IsNullOrEmptyString(argumentValue, argumentName);
+            int count = argumentValue.Length;
+            if (count > maximumLength)
+                throw new ArgumentException($"{paramName} ({argumentValue}: {count})" +
+                    " has exceeded maximum number of " +
+                    $"characters: {maximumLength}.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrWhiteSpace(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNullOrEmptyOrWhiteSpace(string argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
+        {
+            IsNullOrWhiteSpace(argumentValue, paramName);
+            IsNullOrEmpty(argumentValue, paramName);
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNullOrWhiteSpace(string argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (string.IsNullOrWhiteSpace(argumentValue))
-                throw new ArgumentException($"{argumentName} is null or white space");
+                throw new ArgumentException($"{paramName} is null or white space.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNullOrEmptyString(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsNullOrEmpty(string argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
-            if (string.IsNullOrEmpty(argumentValue))
-                throw new ArgumentException($"{argumentName} is null or empty string");
+            if (argumentValue == null || argumentValue.Length == 0)
+                throw new ArgumentException($"{paramName} is null or empty string.");
         }
 
+        /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArgumentIsNotNull(object value, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void ArgumentIsNull(object value, string paramName = DEFAULT_PARAM_NAME)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException($"{argumentName} is null object");
+            if (value == null)
+                throw new ArgumentNullException($"{paramName} is null object.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DateTimeIsGraterThan(DateTime argumentValue, string argumentName, DateTime comparableDateTme)
+        public static void DateTimeIsGraterThan(DateTime argumentValue, string paramName,
+            DateTime comparableDateTme)
         {
             if (argumentValue > comparableDateTme)
                 throw new ArgumentException(
-                    $"{argumentName}: {argumentValue} is greater than {comparableDateTme}");
+                    $"{paramName}: {argumentValue} is greater than {comparableDateTme}.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DateTimeIsLessThan(DateTime argumentValue, string argumentName, DateTime comparableDateTme)
+        public static void DateTimeIsLessThan(DateTime argumentValue, string paramName,
+            DateTime comparableDateTme)
         {
             if (argumentValue < comparableDateTme)
-                throw new ArgumentException($"{argumentName}: {argumentValue} is less than {comparableDateTme}");
+                throw new ArgumentException($"{paramName}: {argumentValue} " +
+                    $"is less than {comparableDateTme}.");
         }
 
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DateTimeIsOutOfRange(DateTime argumentValue, DateTime startDateTime, string argumentName,
-            DateTime endDateTime)
+        public static void IsOutOfRange(DateTime argumentValue, 
+            DateTime startDateTime, DateTime endDateTime,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue < startDateTime || argumentValue > endDateTime)
-                throw new ArgumentException($"{argumentName} is out of range");
+                throw new ArgumentOutOfRangeException(paramName, argumentValue, 
+                    $"Range: {startDateTime} < {argumentValue} > {endDateTime}");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsStringEmptyGuid(string argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsStringEmptyGuid(string argumentValue, 
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == Guid.Empty.ToString())
-                throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
+                throw new ArgumentException($"{paramName} cannot be string with value of empty guid.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsEmptyGuid(Guid argumentValue, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void IsEmptyGuid(Guid argumentValue,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == Guid.Empty)
-                throw new ArgumentException($"{argumentName} cannot be string with value of empty guid.");
+                throw new ArgumentException($"{paramName} cannot be string with value of empty guid.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsEmailValid(string email)
+        public static void InvalidEmail(string email)
         {
             var regex = new Regex(VALID_EMAIL_ADDRESS_PATTERN, RegexOptions.IgnoreCase);
             if (!regex.IsMatch(email))
-                throw new ArgumentException($"{email} is not valid");
+                throw new ArgumentException($"{email} is not valid.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UrlChecker(string url)
+        public static void InvalidURL(string url)
         {
             var regex = new Regex(VALID_URL_PATTERN);
             if (!regex.IsMatch(url))
-                throw new ArgumentException($"{url} is not valid");
+                throw new ArgumentException($"{url} is not valid.");
         }
 
+        /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaximumLength(string argumentValue, int maximumLength, string argumentName = DEFAULT_ARGUMENT_NAME)
+        public static void MaximumLength(string argumentValue, int maximumLength,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue.Length > maximumLength)
-                throw new ArgumentException($"Argument {argumentName} exceed maximum length {maximumLength}");
+                throw new ArgumentException($"Argument {paramName}" +
+                    $"exceeds maximum length {maximumLength}.");
         }
+
+        #region File IO
+
+        /// <exception cref="FileNotFoundException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void FileDoesNotExist(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"The resource at <{filePath}> does not exist.");
+        }
+
+        #endregion
     }
 }
