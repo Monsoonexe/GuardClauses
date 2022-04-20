@@ -269,6 +269,16 @@ namespace GuardClauses
                     $"Range: [{min}, {max}]");
         }
 
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IndexOutOfRange(IList list, int index,
+            string paramName = DEFAULT_PARAM_NAME)
+        {
+            if (index < 0 || index >= list.Count)
+                throw new IndexOutOfRangeException(
+                    $"{paramName} <{index}> is out of range: [0, {list.Count})");
+        }
+
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan<T> (T argumentValue, 
