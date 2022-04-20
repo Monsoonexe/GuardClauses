@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -17,7 +18,6 @@ namespace GuardClauses
         //https://stackoverflow.com/questions/6038061/regular-expression-to-find-urls-within-a-string
         private const string VALID_URL_PATTERN =
             @"([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?";
-        //@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
 
         private const string DEFAULT_PARAM_NAME = "argument";
 
@@ -42,6 +42,8 @@ namespace GuardClauses
         }
 
         #endregion
+
+        #region Arithmetic
 
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -223,24 +225,93 @@ namespace GuardClauses
                 throw new ArgumentException($"{paramName} is 0 or negative number.");
         }
 
+        #endregion
+
+        #region Equivalence
+
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsLengthExceeded(System.Collections.ICollection argumentValue,
-            string paramName, int maximumLength)
+        public static void IsEqualTo<T>(T argumentValue, T guardValue,
+            string paramName = DEFAULT_PARAM_NAME)
+            where T : IEquatable<T>
         {
-            int count = argumentValue.Count;
-            if (count > maximumLength)
-                throw new ArgumentException($"{paramName} ({count}) has exceeded maximum number of " +
-                    $"characters: {maximumLength}.");
+            if (argumentValue.Equals(guardValue))
+                throw new ArgumentException($"{paramName}: " +
+                    $"{argumentValue} is equal to {guardValue}.");
         }
 
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsLengthExceeded(string argumentValue, string paramName, int maximumLength)
+        public static void IsNotEqualTo<T>(T argumentValue, T guardValue,
+            string paramName = DEFAULT_PARAM_NAME)
+            where T : IEquatable<T>
+        {
+            if (!argumentValue.Equals(guardValue))
+                throw new ArgumentException($"{paramName}: " +
+                    $"{argumentValue} is not equal to {guardValue}.");
+        }
+
+        #endregion
+
+        #region Comparison
+
+        //TODO - moar
+
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsOutOfRange<T>(T argumentValue,
+            T min, T max, string paramName = DEFAULT_PARAM_NAME)
+            where T : IComparable<T>
+        {
+            if (argumentValue.CompareTo(min) < 0
+                || argumentValue.CompareTo(max) > 0)
+                throw new ArgumentOutOfRangeException(paramName, argumentValue,
+                    $"Range: [{min}, {max}]");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsGreaterThan<T> (T argumentValue, 
+            T compareValue, string paramName = DEFAULT_PARAM_NAME)
+            where T : IComparable<T>
+        {
+            if (argumentValue.CompareTo(compareValue) > 0)
+                throw new ArgumentException(paramName, $"{argumentValue} > {compareValue}");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLessThan<T>(T argumentValue,
+            T compareValue, string paramName = DEFAULT_PARAM_NAME)
+            where T : IComparable<T>
+        {
+            if (argumentValue.CompareTo(compareValue) < 0)
+                throw new ArgumentException(paramName, $"{argumentValue} < {compareValue}");
+        }
+
+        #endregion
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLengthExceeded(ICollection argumentValue,
+            int maximumLength, string paramName = DEFAULT_PARAM_NAME)
+        {
+            int count = argumentValue.Count;
+            if (count > maximumLength)
+                throw new ArgumentException($"{paramName} " +
+                    $"({count}) has exceeded maximum number " +
+                    $"of characters: {maximumLength}.");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLengthExceeded(string argumentValue,
+            int maximumLength, string paramName = DEFAULT_PARAM_NAME)
         {
             int count = argumentValue.Length;
             if (count > maximumLength)
-                throw new ArgumentException($"{paramName} ({argumentValue}: {count})" +
+                throw new ArgumentException($"{paramName} " +
+                    $"({argumentValue}: {count})" +
                     " has exceeded maximum number of " +
                     $"characters: {maximumLength}.");
         }
@@ -274,41 +345,11 @@ namespace GuardClauses
 
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArgumentIsNull(object value, string paramName = DEFAULT_PARAM_NAME)
+        public static void ArgumentIsNull(object value,
+            string paramName = DEFAULT_PARAM_NAME)
         {
             if (value == null)
                 throw new ArgumentNullException($"{paramName} is null object.");
-        }
-
-        /// <exception cref="ArgumentException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DateTimeIsGraterThan(DateTime argumentValue, string paramName,
-            DateTime comparableDateTme)
-        {
-            if (argumentValue > comparableDateTme)
-                throw new ArgumentException(
-                    $"{paramName}: {argumentValue} is greater than {comparableDateTme}.");
-        }
-
-        /// <exception cref="ArgumentException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DateTimeIsLessThan(DateTime argumentValue, string paramName,
-            DateTime comparableDateTme)
-        {
-            if (argumentValue < comparableDateTme)
-                throw new ArgumentException($"{paramName}: {argumentValue} " +
-                    $"is less than {comparableDateTme}.");
-        }
-
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsOutOfRange(DateTime argumentValue, 
-            DateTime startDateTime, DateTime endDateTime,
-            string paramName = DEFAULT_PARAM_NAME)
-        {
-            if (argumentValue < startDateTime || argumentValue > endDateTime)
-                throw new ArgumentOutOfRangeException(paramName, argumentValue, 
-                    $"Range: {startDateTime} < {argumentValue} > {endDateTime}");
         }
 
         /// <exception cref="ArgumentException"></exception>
@@ -317,7 +358,8 @@ namespace GuardClauses
             string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == Guid.Empty.ToString())
-                throw new ArgumentException($"{paramName} cannot be string with value of empty guid.");
+                throw new ArgumentException($"{paramName} " +
+                    $"cannot be string with value of empty guid.");
         }
 
         /// <exception cref="ArgumentException"></exception>
@@ -326,16 +368,18 @@ namespace GuardClauses
             string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue == Guid.Empty)
-                throw new ArgumentException($"{paramName} cannot be string with value of empty guid.");
+                throw new ArgumentException($"{paramName} " +
+                    $"cannot be empty guid.");
         }
 
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InvalidEmail(string email)
         {
-            var regex = new Regex(VALID_EMAIL_ADDRESS_PATTERN, RegexOptions.IgnoreCase);
+            var regex = new Regex(VALID_EMAIL_ADDRESS_PATTERN,
+                RegexOptions.IgnoreCase);
             if (!regex.IsMatch(email))
-                throw new ArgumentException($"{email} is not valid.");
+                throw new ArgumentException($"{email} is not a valid email.");
         }
 
         /// <exception cref="ArgumentException"></exception>
@@ -344,13 +388,13 @@ namespace GuardClauses
         {
             var regex = new Regex(VALID_URL_PATTERN);
             if (!regex.IsMatch(url))
-                throw new ArgumentException($"{url} is not valid.");
+                throw new ArgumentException($"{url} is not a valid URL.");
         }
 
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaximumLength(string argumentValue, int maximumLength,
-            string paramName = DEFAULT_PARAM_NAME)
+        public static void MaximumLength(string argumentValue,
+            int maximumLength, string paramName = DEFAULT_PARAM_NAME)
         {
             if (argumentValue.Length > maximumLength)
                 throw new ArgumentException($"Argument {paramName}" +
@@ -364,7 +408,8 @@ namespace GuardClauses
         public static void FileDoesNotExist(string filePath)
         {
             if (!File.Exists(filePath))
-                throw new FileNotFoundException($"The resource at <{filePath}> does not exist.");
+                throw new FileNotFoundException($"The resource " +
+                    $"at <{filePath}> does not exist.");
         }
 
         #endregion
