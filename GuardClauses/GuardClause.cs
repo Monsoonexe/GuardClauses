@@ -418,8 +418,17 @@ namespace GuardClauses
         public static void FileDoesNotExist(string filePath)
         {
             if (!File.Exists(filePath))
-                throw new FileNotFoundException($"The resource " +
+                throw new FileNotFoundException("The resource " +
                     $"at <{filePath}> does not exist.");
+        }
+
+        /// <exception cref="FileNotFoundException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void FileAlreadyExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new ArgumentException("The resource " +
+                    $"at <{filePath}> already exists.");
         }
 
         #endregion
