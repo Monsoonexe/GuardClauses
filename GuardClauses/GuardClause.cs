@@ -21,8 +21,18 @@ namespace GuardClauses
 
         private const string DEFAULT_PARAM_NAME = "argument";
 
+        //Should add the Compiled option?
+        private static readonly Regex emailRegex = new Regex(VALID_EMAIL_ADDRESS_PATTERN,
+                RegexOptions.IgnoreCase);
+        private static readonly Regex urlRegex = new Regex(VALID_URL_PATTERN,
+                RegexOptions.IgnoreCase);
+
         #region Boolean
 
+        /// <summary>
+        /// Will thow an <see cref="ArgumentException"/> if the 
+        /// <paramref name="condition"/> is <see langword="true"/>.
+        /// </summary>
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsTrue(bool condition,
@@ -32,6 +42,10 @@ namespace GuardClauses
                 throw new ArgumentException($"{paramName} is true but should not be.");
         }
 
+        /// <summary>
+        /// Will thow an <see cref="ArgumentException"/> if the 
+        /// <paramref name="condition"/> is <see langword="false"/>.
+        /// </summary>
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsFalse(bool condition,
@@ -301,6 +315,8 @@ namespace GuardClauses
 
         #endregion
 
+        #region Collections
+
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLengthExceeded(ICollection argumentValue,
@@ -313,17 +329,44 @@ namespace GuardClauses
                     $"of characters: {maximumLength}.");
         }
 
+        #endregion
+
+        #region Strings
+
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsLengthExceeded(string argumentValue,
+        public static void LengthMoreThan(string argumentValue,
             int maximumLength, string paramName = DEFAULT_PARAM_NAME)
         {
             int count = argumentValue.Length;
             if (count > maximumLength)
                 throw new ArgumentException($"{paramName} " +
                     $"({argumentValue}: {count})" +
-                    " has exceeded maximum number of " +
-                    $"characters: {maximumLength}.");
+                    $" has too many characters: {maximumLength}.");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LengthLessThan(string argumentValue,
+            int minimumLength, string paramName = DEFAULT_PARAM_NAME)
+        {
+            int count = argumentValue.Length;
+            if (count < minimumLength)
+                throw new ArgumentException($"{paramName} " +
+                    $"({argumentValue}: {count})" +
+                    $" does not have enough characters: {minimumLength}.");
+        }
+
+        /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LengthIsNotExactly(string argumentValue,
+            int mandatedLength, string paramName = DEFAULT_PARAM_NAME)
+        {
+            if (argumentValue.Length != mandatedLength)
+            {
+                throw new ArgumentException($"{paramName}: {argumentValue.Length} " +
+                    $"is not exactly the correct length: {mandatedLength}.");
+            }
         }
 
         /// <exception cref="ArgumentException"></exception>
@@ -353,6 +396,8 @@ namespace GuardClauses
                 throw new ArgumentException($"{paramName} is null or empty string.");
         }
 
+        #endregion //strings
+
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ArgumentIsNull(object value,
@@ -360,6 +405,16 @@ namespace GuardClauses
         {
             if (value == null)
                 throw new ArgumentNullException($"{paramName} is null object.");
+        }
+
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ArgumentIsNull(object value,
+            string paramName, string message)
+        {
+            if (value == null)
+                throw new ArgumentNullException($"{paramName} is null object. "
+                    + message);
         }
 
         /// <exception cref="ArgumentException"></exception>
@@ -386,9 +441,7 @@ namespace GuardClauses
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InvalidEmail(string email)
         {
-            var regex = new Regex(VALID_EMAIL_ADDRESS_PATTERN,
-                RegexOptions.IgnoreCase);
-            if (!regex.IsMatch(email))
+            if (!emailRegex.IsMatch(email))
                 throw new ArgumentException($"{email} is not a valid email.");
         }
 
@@ -396,19 +449,8 @@ namespace GuardClauses
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InvalidURL(string url)
         {
-            var regex = new Regex(VALID_URL_PATTERN);
-            if (!regex.IsMatch(url))
+            if (!urlRegex.IsMatch(url))
                 throw new ArgumentException($"{url} is not a valid URL.");
-        }
-
-        /// <exception cref="ArgumentException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaximumLength(string argumentValue,
-            int maximumLength, string paramName = DEFAULT_PARAM_NAME)
-        {
-            if (argumentValue.Length > maximumLength)
-                throw new ArgumentException($"Argument {paramName}" +
-                    $"exceeds maximum length {maximumLength}.");
         }
 
         #region File IO
