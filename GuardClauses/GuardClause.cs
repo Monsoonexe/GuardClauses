@@ -468,7 +468,7 @@ namespace GuardClauses
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void FileAlreadyExists(string filePath)
         {
-            if (!File.Exists(filePath))
+            if (File.Exists(filePath))
                 throw new ArgumentException("The resource " +
                     $"at <{filePath}> already exists.");
         }
